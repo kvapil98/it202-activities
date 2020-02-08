@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lnag="en">
+<head>
+<title>Activity_4.3</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+    
+<body>
+  <div class="card template" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+  </div>  
+
+  <script>
+    let apiEndpoint = "https://data.cityofchicago.org/resource/xzkq-xp2w.json?$LIMIT=100";
+    
+    fetch(apiEndpoint)
+    .then(response => {return response.json()})
+    .then(json => {
+        var card = document.querySelector("div.card");
+        for(let val of json){
+            var clone = card.cloneNode(true);
+            
+            clone.classList.remove("template"); 
+            clone.querySelector("h5.card-title").textContent = val["name"];
+            clone.querySelector("h6.card-subtitle").textContent = val["department"];
+            clone.querySelector("p.card-text").textContent = val["annual_salary"];
+            
+            document.body.appendChild(clone);
+        }
+        card.remove();
+    })
+    .catch(err => alert(err));
+      
+    
+  </script>
+</body>
+</html>
