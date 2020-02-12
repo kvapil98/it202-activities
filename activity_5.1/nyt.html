@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lnag="en">
+<head>
+    <title>Activity_5.1</title>
+    <style>
+        img {
+            width: 550px;
+            height: 550px;
+        }    
+    </style>
+</head>
+    
+<body>
+
+
+  <script>
+    let apiEndpoint = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=OmHuAlPnATGX9bsRyhCCbEZR7Vjnqzw6";
+    
+    fetch(apiEndpoint)
+    .then(response => {return response.json()})
+    .then(json => {
+         //console.log(json);
+         let arr = json.response.docs;
+
+         for( val of arr){
+             let p = document.createElement("h1");
+             p.textContent = val.headline.main;
+             document.body.append(p);
+         }
+        
+    })
+    .catch(err => alert(err));
+    
+      
+      
+    
+  </script>
+</body>
+</html>
