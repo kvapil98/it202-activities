@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas Demo</title>
+<!--         <style>
+            canvas {
+                background-color: red;
+            }
+        </style> -->
+    </head>
+    <body>
+        <canvas id="canvas-demo" width="400" height="400">
+             This will be displayed if your browser doesn't
+             support the canvas element. The closing tag is
+             necessary.
+        </canvas>
+        
+        <script>
+            const canvas = document.querySelector("#canvas-demo");
+            const ctx = canvas.getContext("2d");
+            // fill the entire canvas with black before drawing the circles
+            ctx.fillStyle='#AEDFE4';
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+            
+            drawFirstLetter(ctx);
+            drawShape(ctx);
+            
+
+            ctx.fillStyle = "#19303F";
+            ctx.font = "30px Arial";
+            ctx.fillText("678594843", 10, 170);
+
+            
+            function drawFirstLetter(t) {
+                t.beginPath();
+                t.lineWidth = 10;
+                t.strokeStyle = "#002097";
+                t.moveTo(10, 10);// start at (10,10)
+                t.lineTo(110, 10);
+                t.moveTo(60, 10);
+                t.lineTo(60, 110);
+                t.stroke();
+                t.closePath();
+            }
+            
+            function drawShape(o) {
+                o.beginPath();
+                o.arc(200, 60, 55, 0, 2 * Math.PI, false);
+                o.fillStyle = 'purple';
+                o.fill();
+                o.lineWidth = 2;
+                o.strokeStyle = 'purple';
+                o.stroke();
+                o.closePath();
+            }
+            
+        </script>
+    </body>
+</html>
