@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+        .header img{
+            height: 50px;
+            width: 50px;
+        }
+        
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      // This example displays a marker at the center of Australia.
+// When the user clicks the marker, an info window opens.
+
+        function initMap() {
+          var uic = {lat: 41.8698, lng: -87.6496};
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: uic
+          });
+
+          var contentString = '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<div class="header">' +
+              '<img class="resize" src="uic_logo.png">' +
+              '</div>' +
+              '<div id="bodyContent">'+
+              '<p><b>The University of Illinois at Chicago (UIC)</b>, ' +
+              'is a public research university in Chicago, Illinois. '+
+              'Its campus is in the Near West Side community area, adjacent to the Chicago Loop. The second campus '+
+              'established under the University of Illinois system, UIC is also the largest university in the Chicago area, '+
+              'having more than 33,000 students enrolled in 16 colleges.</p>'+
+              '<p>Attribution: UIC, <a href="https://en.wikipedia.org/wiki/University_of_Illinois_at_Chicago">'+
+              'https://www.uic.edu</a></p>'+
+              '</div>'+
+              '</div>';
+            
+            
+            
+            
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+
+          var marker = new google.maps.Marker({
+            position: uic,
+            map: map,
+            title: 'Uluru (Ayers Rock)'
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGigYPYNDYIjMBPJowjOEAebOqmx-9aWM&callback=initMap"
+    async defer></script>
+  </body>
+</html>
