@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGigYPYNDYIjMBPJowjOEAebOqmx-9aWM&callback=initMap"async defer></script>
+            <script src="data.js"></script>
+    <script>
+      // This example displays a marker at the center of Australia.
+// When the user clicks the marker, an info window opens.
+
+// This example displays a marker at the center of Australia.
+// When the user clicks the marker, an info window opens.
+
+    function initMap() {
+      let uluru = {lat: 41.8781, lng: -87.6298};
+      let map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: uluru
+      });
+    
+       let infowindow = new google.maps.InfoWindow();
+        
+        const createMarker = (latlon,title,iwContent) => {
+              let marker = new google.maps.Marker({
+                  position: latlon,
+                  title: title,
+                  map: map
+            });
+
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.setContent(iwContent);
+                infowindow.open(map, marker);
+                });
+
+         }
+        
+        
+        for(let i of inspection_data){
+            console.log(i);
+            let pos = {lat: parseFloat(i.latitude), lng: parseFloat(i.longitude)};
+            let date = i.inspection_date.split("T");
+            
+            let contentString = '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h1 id="firstHeading" class="firstHeading">' + i.dba_name + '</h1>'+
+              '<div id="bodyContent">'+
+              '<p><b>Facility type</b>: ' + i.facility_type + '</p>'+
+              '<p><b>Address</b>: ' + i.address + '</p>'+
+              '<p><b>Inspection Date</b>: ' + date[0] + '</p>'+
+              '<p><b>Result</b>: ' + i.results + '</p>'+
+              '</div>'+
+              '</div>';
+            
+            createMarker(pos, i.dba_name, contentString);
+        }
+    }
+
+    </script>
+  </body>
+</html>
