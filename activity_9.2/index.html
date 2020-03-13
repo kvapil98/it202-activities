@@ -25,7 +25,7 @@
     <aside class="mdc-drawer mdc-drawer--modal">
     <div class="mdc-drawer__content">
       <nav class="mdc-list">
-        <a class="mdc-list-item mdc-list-item--activated" href="#Home" aria-current="page">
+        <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page">
           <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
           <span class="mdc-list-item__text">Home</span>
         </a>
@@ -91,28 +91,24 @@
           (e) => {drawer.open = true;}
       );
       
+      hideViews = () => {
+         document.querySelectorAll('.view').forEach(item => {
+            
+            item.style.display="none";
+              
+        })
+      }
       
       document.querySelectorAll('.mdc-list-item').forEach(item => {
           item.addEventListener('click', event => {
             //handle click
+             hideViews();
             let val = item.querySelector('span').innerText
-            document.querySelector("#Home").style.display="none";
-            document.querySelector("#Data").style.display="none";
-            document.querySelector("#About").style.display="none";
             
             drawer.open = false;
+            
+            document.querySelector("#"+val).style.display="block";
               
-            switch(val){
-                case "Home":
-                    document.querySelector("#Home").style.display="block";
-                    break;
-                case "Data":
-                    document.querySelector("#Data").style.display="block";
-                    break;
-                case "About":
-                    document.querySelector("#About").style.display="block";
-                    break;
-            }
             
           })
         })
