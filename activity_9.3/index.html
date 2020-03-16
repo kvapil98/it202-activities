@@ -43,56 +43,75 @@
         
         <div id="data">
             <ul class="mdc-list mdc-list--two-line">
-              <li class="mdc-list-item template" id="temp" tabindex="0">
+<!--               <li class="mdc-list-item template" id="temp" tabindex="0">
                 <span class="mdc-list-item__text">
                   <span class="mdc-list-item__primary-text">Two-line item</span>
                   <span class="mdc-list-item__secondary-text">Secondary text</span>
                 </span>
-              </li>
+              </li> -->
             </ul>
         </div>
             
         
         
         <script>
-            mdc.ripple.MDCRipple.attachTo(document.querySelector('.foo-button'));
-            
             let apiEndpoint = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?";
-            //let dataDiv = document.querySelector('#data');
+            let ul = document.querySelector(".mdc-list");
             
             document.querySelectorAll('.mdc-button').forEach(item => {
+              mdc.ripple.MDCRipple.attachTo(item);            
               item.addEventListener('click', event => {
                 
-                let val = item.id;
-                apiEndpoint += "SR_SHORT_CODE=" + val + "&$LIMIT=5";
+                let code = item.id;
+                apiEndpoint += "SR_SHORT_CODE=" + code + "&$LIMIT=5";
                 
                 fetch(apiEndpoint)
                 .then(response => {return response.json()})
                 .then(json => {
                      console.log(json);
-                            let listItem = document.querySelector(".template");
-                            let ul = document.querySelector(".mdc-list");
+                            ul.innerHTML = '';
+                            let iconType = '';
                             
-                            for(let val of ul.childNodes){
-                                //console.log(val);
-                                if(val.id = "temp"){
-                                    continue;
-                                }else{
-                                    val.remove();
-                                }
-                            }
+                            switch(code){
+                                case "GRAF":
+                                    iconType = "broken_image";
+                                    break;
+                                case "SFD":
+                                    iconType = "flash_off";
+                                    break;
+                                case "CSF":
+                                    iconType = "fastfood";
+                                    break;
+                                   }
                     
                             for(let val of json){
-                                let clone = listItem.cloneNode(true);
+                                //let clone = listItem.cloneNode(true);
+                                let listItem = document.createElement('li');
+                                listItem.classList.add('mdc-list-item')
+                                mdc.ripple.MDCRipple.attachTo(listItem)
+                                
+                                let textItem = document.createElement('span');
+                                textItem.classList.add('mdc-list-item__text');
 
-                                clone.classList.remove("template");
-                                clone.id = "clone";
-                                //console.log(clone.id);
-                                clone.querySelector("span.mdc-list-item__primary-text").textContent = val["owner_department"];
-                                clone.querySelector("span.mdc-list-item__secondary-text").textContent = "status: " + val["status"];
+                                let primary = document.createElement('span');
+                                primary.classList.add('mdc-list-item__primary-text');
+
+                                let secondary = document.createElement('span');
+                                secondary.classList.add('mdc-list-item__secondary-text');
+                                
+                                let icon = document.createElement('i');
+                                icon.classList.add('material-icons', 'mdc-list-item__graphic');
+                                
+                                primary.appendChild(document.createTextNode(val["street_address"]));
+                                secondary.appendChild(document.createTextNode(val["status"]));
+                                icon.appendChild(document.createTextNode(iconType));
+                               
                                 //clone.querySelector("p.card-text").textContent = val["annual_salary"];
-
-                                ul.appendChild(clone);
+                                primary.prepend(icon);
+                                textItem.appendChild(primary);
+                                textItem.appendChild(secondary);
+                                listItem.appendChild(textItem);
+                                ul.appendChild(listItem);
                             }
                             //listItem.remove();
                             //dataDiv.style.display="block";
